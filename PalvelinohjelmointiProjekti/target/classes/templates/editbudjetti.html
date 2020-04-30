@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>Projektin Muokkaus</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+	<h1>Muokkaa projektia</h1>
+	<div>
+		<form th:object="${budjetti}" th:action="@{../save}" action="#"
+			method="post">
+			<label for="id"></label> <input type="hidden" id="id"
+				th:field="*{id}" />
+			<label for="budjetti">Alkukassa</label> <input type="text" id="budjetti"
+				value="budjetti" th:field="*{Budjetti}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<label for="tulot">Tulot</label> <input type="text" id="tulot"
+				th:field="*{tulot}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<label for="menot">Menot</label> <input type="text" id="menot"
+				th:field="*{menot}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<label for="kuvaus">Projektin Kuvaus</label> <input type="text" id="kuvaus"
+				th:field="*{kuvaus}" />
+			
+			<select id="kuukausilist"
+				th:field="*{kuukausi}" class="form-control">
+				<option th:each="kuukausi: ${kuukaudet}"
+					th:value="${kuukausi.kuukausiId}" th:text="${kuukausi.kuukausi + kuukausi.vuosi}"></option>
+			</select>
+			
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="submit" value="Save"></input>
+		</form>
+	</div>
+</body>
+</html>

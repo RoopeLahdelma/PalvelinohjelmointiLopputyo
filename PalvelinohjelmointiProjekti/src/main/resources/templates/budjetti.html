@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>Budjetti</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}" />
+</head>
+<body>
+	
+	<div class="col-md-4">
+		<h1>Budjetointi ohjelma</h1>
+	</div>
+	 <a href="/add" class="btn btn-primary">Lisää Projekti</a>
+	<div class="col-md-4">
+		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	<div class="col-md-4" style="padding:15px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Vuosi</th>
+			<th>Kuukausi</th>
+			<th>Alkukassa</th>
+			<th>Tulot</th>
+			<th>Menot</th>
+			<th>Projektin budjetti</th>
+			<th>Kuvaus</th>
+			<th sec:authorize="hasAuthority('ADMIN')"> </th>
+		</tr>
+		<tr th:each="budjetti : ${budjetit}">
+			<td th:text="${budjetti.kuukausi.vuosi}"></td>
+			<td th:text="${budjetti.kuukausi.kuukausi}"></td>
+			<td th:text="${budjetti.budjetti} + €"></td>
+			<td th:text="${budjetti.tulot} + €"></td>
+			<td th:text="${budjetti.menot} + €"></td>
+			<td th:with="result=${budjetti.budjetti + budjetti.tulot - budjetti.menot}">
+  <span th:text="${result} + €"></span>
+</td>
+			<td th:text="${budjetti.kuvaus}"></td>
+		
+		<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${budjetti.id})}" 
+		class="btn btn-xs btn-danger">Delete</a></td>
+			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${budjetti.id})}"
+				class="btn btn-primary">Edit</a></td>
+		
+		</tr>
+		
+	</table>
+	
+</body>
+</html>
